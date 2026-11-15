@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SM STORE | Streetwear & Moda Urbana Exclusiva</title>
+    
+    <!-- Google Fonts: Syne (Display) & Space Grotesk (Body/Tech) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuração personalizada do Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Syne', 'sans-serif'],
+                        sans: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            950: '#09090b',
+                            900: '#121215',
+                            800: '#18181b',
+                            700: '#27272a',
+                        },
+                        neon: {
+                            acid: '#bef264', // Verde ácido streetwear
+                            orange: '#f97316', // Laranja vibrante
+                        }
+                    },
+                    animation: {
+                        'marquee': 'marquee 25s linear infinite',
+                        'marquee-reverse': 'marqueeReverse 28s linear infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        },
+                        marqueeReverse: {
+                            '0%': { transform: 'translateX(-50%)' },
+                            '100%': { transform: 'translateX(0%)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Estilos Base e Custom Scrollbar */
+        body {
+            background-color: #09090b;
+            color: #ffffff;
+            overflow-x: hidden;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #09090b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #bef264;
+        }
+
+        /* Textura de ruído (Noise Overlay) sutil para estética urbana */
+        .noise-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9990;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Texto vazado (Outline Text) */
+        .text-stroke {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.35);
+            color: transparent;
+        }
+        .text-stroke-neon {
+            -webkit-text-stroke: 1.5px #bef264;
+            color: transparent;
+        }
+
+        /* Efeito de brilho magnético nos botões */
+        .btn-glow {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s ease;
+        }
+        .btn-glow:hover::before {
+            left: 100%;
+        }
+
+        /* Animações de Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(35px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Cursor Customizado (Desktop) */
+        @media (pointer: fine) {
+            .custom-cursor {
+                width: 24px;
+                height: 24px;
+                border: 1.5px solid #bef264;
+                border-radius: 50%;
+                position: fixed;
+                pointer-events: none;
+                z-index: 9999;
+                transform: translate(-50%, -50%);
+                transition: width 0.2s, height 0.2s, background-color 0.2s, transform 0.08s ease-out;
+                mix-blend-mode: difference;
+            }
+            .custom-cursor.hovered {
+                width: 52px;
+                height: 52px;
+                background-color: rgba(190, 242, 100, 0.25);
+                border-color: transparent;
+            }
+        }
+
+        /* Preloader */
+        #preloader {
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        #preloader.hidden-loader {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Animação do contador do carrinho */
+        @keyframes bump {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.4); }
+            100% { transform: scale(1); }
+        }
+        .animate-bump {
+            animation: bump 0.35s ease;
+        }
+
+        /* Pausa marquee no hover */
+        .marquee-wrapper:hover .animate-marquee,
+        .marquee-wrapper:hover .animate-marquee-reverse {
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-neon-acid selection:text-dark-950">
+
+    <!-- Noise Overlay -->
+    <div class="noise-bg"></div>
+
+    <!-- Custom Cursor -->
+    <div id="custom-cursor" class="custom-cursor hidden md:block"></div>
+
+    <!-- PRELOADER -->
+    <div id="preloader" class="fixed inset-0 z-[100] bg-dark-950 flex flex-col items-center justify-center">
+        <div class="relative flex flex-col items-center">
+            <div class="font-display text-4xl md:text-6xl font-extrabold tracking-tighter text-white flex items-center gap-2">
+                <span class="bg-neon-acid text-dark-950 px-3 py-1 rounded-lg">SM</span>
+                <span>STORE</span>
+            </div>
+            <div class="w-48 h-1 bg-dark-800 rounded-full mt-6 overflow-hidden">
+                <div id="loader-bar" class="h-full bg-neon-acid w-0 transition-all duration-700 ease-out"></div>
+            </div>
+            <span class="text-xs uppercase tracking-[0.3em] text-zinc-400 mt-3">Drop 2026 // Carregando</span>
+        </div>
+    </div>
+
+    <!-- BARRA DE AVISOS (ANNOUNCEMENT BAR) -->
+    <div class="bg-neon-acid text-dark-950 text-xs font-bold uppercase tracking-wider py-2 overflow-hidden marquee-wrapper relative z-50">
+        <div class="flex whitespace-nowrap animate-marquee w-max">
+            <div class="flex items-center gap-8 px-4">
+                <span>⚡ FRETE GRÁTIS PARA TODO O BRASIL ACIMA DE R$ 299</span>
+                <span>•</span>
+                <span>🔥 USE O CUPOM <strong class="underline">SM10</strong> E GANHE 10% OFF NA PRIMEIRA COMPRA</span>
+                <span>•</span>
+                <span>💸 5% DE DESCONTO EXTRA NO PIX</span>
+                <span>•</span>
+                <span>💳 PARCELE EM ATÉ 6X SEM JUROS NO CARTÃO</span>
+                <span>•</span>
+            </div>
+            <!-- Cópia para loop contínuo -->
+            <div class="flex items-center gap-8 px-4">
+                <span>⚡ FRETE GRÁTIS PARA TODO O BRASIL ACIMA DE R$ 299</span>
+                <span>•</span>
+                <span>🔥 USE O CUPOM <strong class="underline">SM10</strong> E GANHE 10% OFF NA PRIMEIRA COMPRA</span>
+                <span>•</span>
+                <span>💸 5% DE DESCONTO EXTRA NO PIX</span>
+                <span>•</span>
+                <span>💳 PARCELE EM ATÉ 6X SEM JUROS NO CARTÃO</span>
+                <span>•</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER / NAVBAR FIXO -->
+    <header id="navbar" class="sticky top-0 z-40 transition-all duration-300 border-b border-white/5 bg-dark-950/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Botão Menu Mobile -->
+                <div class="flex items-center md:hidden">
+                    <button id="mobile-menu-btn" aria-label="Abrir Menu" class="p-2.5 rounded-xl bg-dark-800 text-white hover:text-neon-acid transition">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Logo -->
+                <a href="#inicio" class="flex items-center gap-2 group hover-target">
+                    <span class="font-display font-extrabold text-2xl sm:text-3xl tracking-tighter text-white flex items-center gap-1.5">
+                        <span class="bg-neon-acid text-dark-950 px-2 py-0.5 rounded-md group-hover:rotate-3 transition-transform">SM</span>
+                        <span>STORE</span>
+                    </span>
+                </a>
+
+                <!-- Links Desktop -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-medium uppercase tracking-wider">
+                    <a href="#inicio" class="text-zinc-300 hover:text-neon-acid transition hover-target">Início</a>
+                    <a href="#lancamentos" class="text-zinc-300 hover:text-neon-acid transition hover-target flex items-center gap-1.5">
+                        Lançamentos <span class="w-2 h-2 rounded-full bg-neon-acid animate-ping"></span>
+                    </a>
+                    <a href="#colecoes" class="text-zinc-300 hover:text-neon-acid transition hover-target">Coleções</a>
+                    <a href="#sobre" class="text-zinc-300 hover:text-neon-acid transition hover-target">Manifesto</a>
+                    <a href="#contato" class="text-zinc-300 hover:text-neon-acid transition hover-target">Contato</a>
+                </nav>
+
+                <!-- Ações (Busca, Favoritos, Carrinho) -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <!-- Barra de Busca Desktop -->
+                    <div class="hidden lg:flex items-center bg-dark-800/90 border border-white/10 rounded-full px-3.5 py-1.5 focus-within:border-neon-acid transition">
+                        <i class="fa-solid fa-magnifying-glass text-zinc-400 text-xs mr-2"></i>
+                        <input type="text" id="search-input" placeholder="Buscar peças..." class="bg-transparent text-sm text-white placeholder-zinc-500 focus:outline-none w-36 xl:w-44">
+                    </div>
+
+                    <!-- Botão Busca Mobile -->
+                    <button id="mobile-search-toggle" aria-label="Buscar" class="lg:hidden p-2.5 rounded-full bg-dark-800/80 text-zinc-300 hover:text-neon-acid transition">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+
+                    <!-- Favoritos -->
+                    <button id="favorites-btn" aria-label="Favoritos" class="relative p-2.5 rounded-full bg-dark-800/80 text-zinc-300 hover:text-neon-acid transition hover-target">
+                        <i class="fa-regular fa-heart"></i>
+                        <span id="fav-count" class="hidden absolute -top-1 -right-1 bg-neon-orange text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                    </button>
+
+                    <!-- Carrinho -->
+                    <button id="cart-btn" aria-label="Carrinho" class="relative p-2.5 sm:px-4 sm:py-2.5 rounded-full bg-neon-acid text-dark-950 font-bold text-sm flex items-center gap-2 hover:bg-white transition btn-glow hover-target">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        <span class="hidden sm:inline">Sacola</span>
+                        <span id="cart-count" class="bg-dark-950 text-neon-acid text-xs font-extrabold px-1.5 py-0.5 rounded-full">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Barra de Busca Mobile Expansível -->
+            <div id="mobile-search-bar" class="hidden pb-4 lg:hidden">
+                <div class="flex items-center bg-dark-800 border border-white/10 rounded-xl px-4 py-2.5">
+                    <i class="fa-solid fa-magnifying-glass text-zinc-400 mr-3"></i>
+                    <input type="text" id="mobile-search-input" placeholder="O que você procura hoje? (ex: Oversized, Cargo...)" class="bg-transparent text-sm text-white placeholder-zinc-500 focus:outline-none w-full">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MENU LATERAL MOBILE -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300"></div>
+    <aside id="mobile-menu" class="fixed top-0 left-0 h-full w-72 bg-dark-900 border-r border-white/10 z-50 transform -translate-x-full transition-transform duration-300 flex flex-col justify-between p-6">
+        <div>
+            <div class="flex items-center justify-between pb-6 border-b border-white/10">
+                <span class="font-display font-extrabold text-2xl tracking-tighter text-white">
+                    <span class="bg-neon-acid text-dark-950 px-2 py-0.5 rounded-md">SM</span> STORE
+                </span>
+                <button id="close-mobile-menu" class="p-2 rounded-lg bg-dark-800 text-zinc-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <nav class="flex flex-col space-y-4 mt-8 font-display text-xl uppercase">
+                <a href="#inicio" class="mobile-nav-link hover:text-neon-acid transition">Início</a>
+                <a href="#lancamentos" class="mobile-nav-link hover:text-neon-acid transition">Lançamentos</a>
+                <a href="#colecoes" class="mobile-nav-link hover:text-neon-acid transition">Coleções</a>
+                <a href="#sobre" class="mobile-nav-link hover:text-neon-acid transition">Manifesto</a>
+                <a href="#contato" class="mobile-nav-link hover:text-neon-acid transition">Contato</a>
+            </nav>
+        </div>
+        <div class="pt-6 border-t border-white/10">
+            <p class="text-xs text-zinc-400 mb-3">Siga a SM STORE nas redes:</p>
+            <div class="flex gap-3">
+                <a href="#contato" class="w-10 h-10 rounded-full bg-dark-800 flex items-center justify-center hover:bg-neon-acid hover:text-dark-950 transition"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#contato" class="w-10 h-10 rounded-full bg-dark-800 flex items-center justify-center hover:bg-neon-acid hover:text-dark-950 transition"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="#contato" class="w-10 h-10 rounded-full bg-dark-800 flex items-center justify-center hover:bg-neon-acid hover:text-dark-950 transition"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- HERO SECTION -->
+    <section id="inicio" class="relative min-h-[90vh] flex items-center overflow-hidden border-b border-white/10">
+        <!-- Imagem de Fundo com Parallax Sutil -->
+        <div id="hero-bg" class="absolute inset-0 z-0 scale-105 transition-transform duration-300 ease-out">
+            <img src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1920&q=85" 
+                 alt="Streetwear Editorial SM STORE" 
+                 class="w-full h-full object-cover object-center opacity-45"
+                 onerror="this.src='https://placehold.co/1920x1080/121215/bef264?text=SM+STORE+DROP+2026'">
+            <div class="absolute inset-0 bg-gradient-to-t from-dark-950 via-dark-950/60 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-dark-950 via-dark-950/70 to-transparent"></div>
+        </div>
+
+        <!-- Elementos Decorativos Flutuantes -->
+        <div class="hidden lg:flex absolute right-12 bottom-12 z-10 flex-col items-end text-right pointer-events-none">
+            <span class="text-xs font-mono text-neon-acid border border-neon-acid/40 bg-neon-acid/10 px-3 py-1 rounded-full mb-2">
+                ● COLEÇÃO CÁPSULA // 004
+            </span>
+            <p class="font-display text-5xl font-extrabold text-stroke opacity-60">2026</p>
+        </div>
+
+        <!-- Conteúdo Principal Hero -->
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-2 bg-white/5 border border-white/10 backdrop-blur-md px-4 py-1.5 rounded-full mb-6 hero-stagger opacity-0 translate-y-6 transition-all duration-700">
+                    <span class="w-2 h-2 rounded-full bg-neon-acid"></span>
+                    <span class="text-xs font-semibold uppercase tracking-widest text-zinc-200">Novo Drop Disponível Agora</span>
+                </div>
+
+                <h1 class="font-display font-extrabold text-5xl sm:text-7xl lg:text-8xl uppercase leading-[0.95] tracking-tight mb-6 hero-stagger opacity-0 translate-y-6 transition-all duration-700 delay-150">
+                    A RUA É O <br>
+                    <span class="text-neon-acid">NOSSO PALCO.</span>
+                </h1>
+
+                <p class="text-zinc-300 text-base sm:text-xl max-w-xl mb-10 leading-relaxed hero-stagger opacity-0 translate-y-6 transition-all duration-700 delay-300">
+                    Modelagens oversized exclusivas, algodão heavyweight 240g e estética urbana sem concessões. Vista a identidade da <strong class="text-white">SM STORE</strong>.
+                </p>
+
+                <div class="flex flex-wrap items-center gap-4 hero-stagger opacity-0 translate-y-6 transition-all duration-700 delay-500">
+                    <a href="#lancamentos" class="px-8 py-4 rounded-xl bg-neon-acid text-dark-950 font-extrabold uppercase tracking-wider text-sm flex items-center gap-3 hover:bg-white transition btn-glow hover-target shadow-[0_0_25px_rgba(190,242,100,0.3)]">
+                        Explorar Drop 2026
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="#colecoes" class="px-8 py-4 rounded-xl bg-white/5 border border-white/15 backdrop-blur-md text-white font-bold uppercase tracking-wider text-sm hover:border-neon-acid hover:text-neon-acid transition hover-target">
+                        Ver Lookbook
+                    </a>
+                </div>
+
+                <!-- Selos rápidos Hero -->
+                <div class="grid grid-cols-3 gap-4 max-w-lg mt-14 pt-8 border-t border-white/10 hero-stagger opacity-0 translate-y-6 transition-all duration-700 delay-700">
+                    <div>
+                        <p class="font-display font-bold text-xl sm:text-2xl text-white">240g/m²</p>
+                        <p class="text-xs text-zinc-400">Algodão Heavyweight</p>
+                    </div>
+                    <div>
+                        <p class="font-display font-bold text-xl sm:text-2xl text-neon-acid">Envio 24h</p>
+                        <p class="text-xs text-zinc-400">Para todo o Brasil</p>
+                    </div>
+                    <div>
+                        <p class="font-display font-bold text-xl sm:text-2xl text-white">Limitado</p>
+                        <p class="text-xs text-zinc-400">Peças Numeradas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARQUEE DIVISOR DINÂMICO -->
+    <div class="bg-dark-900 border-b border-white/10 py-5 overflow-hidden marquee-wrapper">
+        <div class="flex whitespace-nowrap animate-marquee-reverse w-max items-center">
+            <div class="flex items-center gap-8 px-4 font-display text-2xl sm:text-3xl font-extrabold uppercase tracking-wider">
+                <span class="text-white">STREETWEAR</span>
+                <span class="text-neon-acid">✦</span>
+                <span class="text-stroke">EXCLUSIVIDADE</span>
+                <span class="text-neon-acid">✦</span>
+                <span class="text-white">DROP 2026</span>
+                <span class="text-neon-acid">✦</span>
+                <span class="text-stroke-neon">SM STORE</span>
+                <span class="text-neon-acid">✦</span>
+                <span class="text-white">OVERSIZED FIT</span>
+                <span class="text-neon-acid">✦</span>
+            </div>
+            <div class="flex items-center gap-8 px-4 font-display text-2xl sm:text-3xl font-extrabold uppercase tracking-wider">
+                <span class="text-white">STREETWEAR</span>
+                <span class="text-neon-acid">✦</span>
+                <span class="text-stroke">EXCLUSIVIDADE</span>
+                <span class="text-neon-acid">✦</span>
+                <span class="text-white">DROP 2026</span>
+                <span class="text-neon-acid">✦</span>
+                <span class="text-stroke-neon">SM STORE</span>
+                <span class="text-neon-acid">✦</span>
+                <span class="text-white">OVERSIZED FIT</span>
+                <span class="text-neon-acid">✦</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEÇÃO CATÁLOGO DE PRODUTOS -->
+    <section id="lancamentos" class="py-20 sm:py-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Cabeçalho da Seção + Filtros -->
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12 reveal">
+            <div>
+                <span class="text-neon-acid font-mono text-xs uppercase tracking-widest block mb-2">// CATÁLOGO OFICIAL</span>
+                <h2 class="font-display font-extrabold text-3xl sm:text-5xl uppercase tracking-tight">
+                    Destaques do <span class="text-stroke">Drop</span>
+                </h2>
+            </div>
+
+            <!-- Controles de Filtro e Ordenação -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <!-- Botões de Categoria -->
+                <div id="category-filters" class="flex flex-wrap gap-2">
+                    <button data-category="Todos" class="filter-btn active px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-neon-acid text-dark-950 transition hover-target">
+                        Todos
+                    </button>
+                    <button data-category="Camisetas" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-dark-800 text-zinc-300 hover:bg-dark-700 transition hover-target">
+                        Camisetas
+                    </button>
+                    <button data-category="Moletons" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-dark-800 text-zinc-300 hover:bg-dark-700 transition hover-target">
+                        Moletons
+                    </button>
+                    <button data-category="Calças" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-dark-800 text-zinc-300 hover:bg-dark-700 transition hover-target">
+                        Calças
+                    </button>
+                    <button data-category="Acessórios" class="filter-btn px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-dark-800 text-zinc-300 hover:bg-dark-700 transition hover-target">
+                        Acessórios
+                    </button>
+                </div>
+
+                <!-- Seletor de Ordenação -->
+                <select id="sort-select" class="bg-dark-800 border border-white/10 text-zinc-200 text-xs font-bold uppercase tracking-wider rounded-xl px-4 py-2.5 focus:outline-none focus:border-neon-acid cursor-pointer">
+                    <option value="featured">Mais Recentes</option>
+                    <option value="price-asc">Menor Preço</option>
+                    <option value="price-desc">Maior Preço</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Contador de Resultados / Status de Busca -->
+        <div id="search-status" class="hidden mb-6 flex items-center justify-between bg-dark-800/60 border border-white/10 rounded-xl px-4 py-3">
+            <span id="search-status-text" class="text-sm text-zinc-300"></span>
+            <button id="clear-filters-btn" class="text-xs font-bold text-neon-acid hover:underline uppercase">Limpar Filtros</button>
+        </div>
+
+        <!-- Grid de Produtos -->
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            <!-- Produtos renderizados dinamicamente via JS -->
+        </div>
+    </section>
+
+    <!-- SEÇÃO COLEÇÕES / BENTO GRID LOOKBOOK -->
+    <section id="colecoes" class="py-20 bg-dark-900/60 border-y border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 reveal">
+                <div>
+                    <span class="text-neon-acid font-mono text-xs uppercase tracking-widest block mb-2">// CURADORIA URBANA</span>
+                    <h2 class="font-display font-extrabold text-3xl sm:text-5xl uppercase tracking-tight">
+                        Explore por <span class="text-neon-acid">Estilo</span>
+                    </h2>
+                </div>
+                <p class="text-zinc-400 text-sm max-w-md mt-3 md:mt-0">
+                    Clique em qualquer categoria abaixo para filtrar instantaneamente as peças exclusivas da nossa coleção atual.
+                </p>
+            </div>
+
+            <!-- Bento Grid Assimétrico -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[280px] sm:auto-rows-[320px]">
+                
+                <!-- Card 1: Heavyweight Tees (Grande) -->
+                <div onclick="filterByBanner('Camisetas')" class="md:col-span-7 relative rounded-2xl overflow-hidden group cursor-pointer border border-white/10 reveal hover-target">
+                    <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=1000&q=80" 
+                         alt="Camisetas Oversized" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                         onerror="this.src='https://placehold.co/800x600/18181b/ffffff?text=CAMISETAS+OVERSIZED'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-950 via-dark-950/30 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6 flex items-end justify-between">
+                        <div>
+                            <span class="bg-neon-acid text-dark-950 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md">240G BOX FIT</span>
+                            <h3 class="font-display font-extrabold text-2xl sm:text-3xl uppercase mt-2 group-hover:text-neon-acid transition">Camisetas Oversized</h3>
+                        </div>
+                        <span class="w-11 h-11 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center group-hover:bg-neon-acid group-hover:text-dark-950 transition">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Card 2: Moletons & Hoodies -->
+                <div onclick="filterByBanner('Moletons')" class="md:col-span-5 relative rounded-2xl overflow-hidden group cursor-pointer border border-white/10 reveal hover-target">
+                    <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=900&q=80" 
+                         alt="Moletons Heavyweight" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                         onerror="this.src='https://placehold.co/600x600/18181b/ffffff?text=MOLETONS'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-950 via-dark-950/30 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6 flex items-end justify-between">
+                        <div>
+                            <span class="bg-white/15 backdrop-blur-md text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-md">400G PELUCIADO</span>
+                            <h3 class="font-display font-extrabold text-2xl sm:text-3xl uppercase mt-2 group-hover:text-neon-acid transition">Moletons & Hoodies</h3>
+                        </div>
+                        <span class="w-11 h-11 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center group-hover:bg-neon-acid group-hover:text-dark-950 transition">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Card 3: Calças Cargo & Parachute -->
+                <div onclick="filterByBanner('Calças')" class="md:col-span-5 relative rounded-2xl overflow-hidden group cursor-pointer border border-white/10 reveal hover-target">
+                    <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=900&q=80" 
+                         alt="Calças Cargo" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                         onerror="this.src='https://placehold.co/600x600/18181b/ffffff?text=CALCAS+CARGO'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-950 via-dark-950/30 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6 flex items-end justify-between">
+                        <div>
+                            <span class="bg-neon-orange text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-md">UTILITÁRIO</span>
+                            <h3 class="font-display font-extrabold text-2xl sm:text-3xl uppercase mt-2 group-hover:text-neon-acid transition">Calças Cargo</h3>
+                        </div>
+                        <span class="w-11 h-11 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center group-hover:bg-neon-acid group-hover:text-dark-950 transition">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Card 4: Acessórios & Caps -->
+                <div onclick="filterByBanner('Acessórios')" class="md:col-span-7 relative rounded-2xl overflow-hidden group cursor-pointer border border-white/10 reveal hover-target">
+                    <img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=1000&q=80" 
+                         alt="Acessórios Streetwear" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                         onerror="this.src='https://placehold.co/800x600/18181b/ffffff?text=ACESSORIOS'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-950 via-dark-950/30 to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6 flex items-end justify-between">
+                        <div>
+                            <span class="bg-white/15 backdrop-blur-md text-white text-[10px] font-bold uppercase px-2.5 py-1 rounded-md">HEADWEAR & BAGS</span>
+                            <h3 class="font-display font-extrabold text-2xl sm:text-3xl uppercase mt-2 group-hover:text-neon-acid transition">Bonés & Acessórios</h3>
+                        </div>
+                        <span class="w-11 h-11 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center group-hover:bg-neon-acid group-hover:text-dark-950 transition">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO MANIFESTO / SOBRE A MARCA + CONTADORES ANIMADOS -->
+    <section id="sobre" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <!-- Imagem Editorial -->
+            <div class="lg:col-span-5 relative reveal">
+                <div class="relative rounded-2xl overflow-hidden border border-white/10">
+                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=85" 
+                         alt="Manifesto SM STORE" 
+                         class="w-full h-[460px] object-cover"
+                         onerror="this.src='https://placehold.co/600x800/18181b/bef264?text=SM+MANIFESTO'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-dark-950/80 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-5 left-5 right-5 bg-dark-950/80 backdrop-blur-md border border-white/10 p-4 rounded-xl">
+                        <p class="font-mono text-xs text-neon-acid">EST. 2022 // SÃO PAULO - BR</p>
+                        <p class="text-sm font-bold text-white mt-1">"Não seguimos tendências. Criamos armaduras para o asfalto."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Texto Manifesto + Contadores -->
+            <div class="lg:col-span-7 reveal">
+                <span class="text-neon-acid font-mono text-xs uppercase tracking-widest block mb-3">// MANIFESTO SM STORE</span>
+                <h2 class="font-display font-extrabold text-3xl sm:text-5xl uppercase leading-tight mb-6">
+                    Mais que roupa. <br>É cultura de <span class="text-neon-acid">atitude.</span>
+                </h2>
+                <p class="text-zinc-300 text-base sm:text-lg leading-relaxed mb-6">
+                    A <strong class="text-white">SM STORE</strong> nasceu da necessidade de elevar o streetwear nacional ao padrão internacional de acabamento. Cada peça é desenvolvida do zero: desde a escolha do fio penteado de alta gramatura até o caimento boxy que valoriza a silhueta urbana.
+                </p>
+                <p class="text-zinc-400 text-sm sm:text-base leading-relaxed mb-10">
+                    Trabalhamos com tiragens limitadas e sem reposição para garantir que você vista algo verdadeiramente autêntico.
+                </p>
+
+                <!-- Contadores Animados -->
+                <div id="stats-container" class="grid grid-cols-3 gap-4 sm:gap-8 p-6 rounded-2xl bg-dark-900 border border-white/10">
+                    <div>
+                        <div class="font-display font-extrabold text-3xl sm:text-4xl text-neon-acid flex items-baseline">
+                            +<span class="counter" data-target="15">0</span>k
+                        </div>
+                        <p class="text-xs sm:text-sm text-zinc-400 mt-1">Clientes na Família SM</p>
+                    </div>
+                    <div>
+                        <div class="font-display font-extrabold text-3xl sm:text-4xl text-white flex items-baseline">
+                            <span class="counter" data-target="100">0</span>%
+                        </div>
+                        <p class="text-xs sm:text-sm text-zinc-400 mt-1">Algodão Brasileiro Premium</p>
+                    </div>
+                    <div>
+                        <div class="font-display font-extrabold text-3xl sm:text-4xl text-neon-acid flex items-baseline">
+                            <span class="counter" data-target="27">0</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-zinc-400 mt-1">Estados Atendidos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Avaliações / Depoimentos -->
+        <div class="mt-24 reveal">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-neon-acid font-mono text-xs uppercase tracking-widest">// FEEDBACK REAL</span>
+                <h3 class="font-display font-extrabold text-2xl sm:text-4xl uppercase mt-2">Quem veste <span class="text-stroke">aprova</span></h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-dark-900 border border-white/10 p-6 rounded-2xl hover:border-neon-acid/50 transition">
+                    <div class="flex text-neon-acid text-xs mb-4 gap-1">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-zinc-300 text-sm leading-relaxed mb-6">
+                        "A gramatura da camiseta oversized é absurda! Gola canelada grossa que não deforma na lavagem. Chegou em 2 dias aqui em SP."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-neon-acid text-dark-950 font-bold flex items-center justify-center">LF</div>
+                        <div>
+                            <p class="text-sm font-bold text-white">Lucas Ferreira</p>
+                            <p class="text-xs text-zinc-500">São Paulo, SP • Compra Verificada</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-dark-900 border border-white/10 p-6 rounded-2xl hover:border-neon-acid/50 transition">
+                    <div class="flex text-neon-acid text-xs mb-4 gap-1">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-zinc-300 text-sm leading-relaxed mb-6">
+                        "Comprei o Moletom Boxy Acid e a Calça Cargo. Caimento impecável, parece marca gringa. Já virei cliente fiel da SM STORE."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-neon-orange text-white font-bold flex items-center justify-center">MR</div>
+                        <div>
+                            <p class="text-sm font-bold text-white">Matheus Rocha</p>
+                            <p class="text-xs text-zinc-500">Curitiba, PR • Compra Verificada</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-dark-900 border border-white/10 p-6 rounded-2xl hover:border-neon-acid/50 transition">
+                    <div class="flex text-neon-acid text-xs mb-4 gap-1">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-zinc-300 text-sm leading-relaxed mb-6">
+                        "Embalagem diferenciada, adesivos exclusivos de brinde e qualidade surreal no silk. Recomendo demais!"
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-white text-dark-950 font-bold flex items-center justify-center">GA</div>
+                        <div>
+                            <p class="text-sm font-bold text-white">Gabriela Almeida</p>
+                            <p class="text-xs text-zinc-500">Belo Horizonte, MG • Compra Verificada</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER VIP -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto reveal">
+        <div class="relative rounded-3xl bg-gradient-to-r from-dark-900 via-dark-800 to-dark-900 border border-white/10 p-8 sm:p-14 overflow-hidden">
+            <div class="absolute -right-20 -top-20 w-72 h-72 bg-neon-acid/15 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
+                <div class="max-w-xl text-center lg:text-left">
+                    <span class="bg-neon-acid/15 text-neon-acid border border-neon-acid/30 text-xs font-bold uppercase px-3 py-1 rounded-full">
+                        Acesso Antecipado
+                    </span>
+                    <h3 class="font-display font-extrabold text-2xl sm:text-4xl uppercase mt-4">
+                        Entre para o <span class="text-neon-acid">Clube SM</span>
+                    </h3>
+                    <p class="text-zinc-400 text-sm sm:text-base mt-2">
+                        Receba acesso antecipado aos drops limitados e desbloqueie agora seu cupom de <strong class="text-white">10% OFF</strong>.
+                    </p>
+                </div>
+
+                <form id="newsletter-form" class="w-full max-w-md">
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input type="email" id="newsletter-email" required placeholder="Seu melhor e-mail..." 
+                               class="flex-1 bg-dark-950 border border-white/15 rounded-xl px-4 py-3.5 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-neon-acid">
+                        <button type="submit" class="px-6 py-3.5 rounded-xl bg-neon-acid text-dark-950 font-extrabold text-sm uppercase tracking-wider hover:bg-white transition btn-glow hover-target">
+                            Desbloquear
+                        </button>
+                    </div>
+                    <p id="newsletter-feedback" class="text-xs text-neon-acid mt-2.5 hidden font-medium"></p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER / RODAPÉ COMPLETO -->
+    <footer id="contato" class="bg-dark-900 border-t border-white/10 pt-16 pb-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/10">
+                <!-- Coluna 1: Marca -->
+                <div>
+                    <a href="#inicio" class="font-display font-extrabold text-2xl tracking-tighter text-white flex items-center gap-1.5 mb-4">
+                        <span class="bg-neon-acid text-dark-950 px-2 py-0.5 rounded-md">SM</span>
+                        <span>STORE</span>
+                    </a>
+                    <p class="text-zinc-400 text-sm leading-relaxed mb-6">
+                        Streetwear autêntico criado no Brasil. Peças de alta gramatura, cortes modernos e identidade urbana.
+                    </p>
+                    <div class="flex gap-3">
+                        <a href="#contato" aria-label="Instagram" class="w-10 h-10 rounded-xl bg-dark-800 border border-white/10 flex items-center justify-center text-zinc-300 hover:bg-neon-acid hover:text-dark-950 transition hover-target">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#contato" aria-label="TikTok" class="w-10 h-10 rounded-xl bg-dark-800 border border-white/10 flex items-center justify-center text-zinc-300 hover:bg-neon-acid hover:text-dark-950 transition hover-target">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+                        <a href="#contato" aria-label="YouTube" class="w-10 h-10 rounded-xl bg-dark-800 border border-white/10 flex items-center justify-center text-zinc-300 hover:bg-neon-acid hover:text-dark-950 transition hover-target">
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Coluna 2: Navegação -->
+                <div>
+                    <h4 class="font-display font-bold uppercase text-sm tracking-wider text-white mb-4">Navegação</h4>
+                    <ul class="space-y-2.5 text-sm text-zinc-400">
+                        <li><a href="#inicio" class="hover:text-neon-acid transition">Início</a></li>
+                        <li><a href="#lancamentos" class="hover:text-neon-acid transition">Lançamentos Drop 2026</a></li>
+                        <li><a href="#colecoes" class="hover:text-neon-acid transition">Coleções & Lookbook</a></li>
+                        <li><a href="#sobre" class="hover:text-neon-acid transition">Sobre a SM STORE</a></li>
+                    </ul>
+                </div>
+
+                <!-- Coluna 3: Suporte -->
+                <div>
+                    <h4 class="font-display font-bold uppercase text-sm tracking-wider text-white mb-4">Atendimento</h4>
+                    <ul class="space-y-2.5 text-sm text-zinc-400">
+                        <li><i class="fa-brands fa-whatsapp text-neon-acid mr-2"></i> (11) 99999-2026</li>
+                        <li><i class="fa-regular fa-envelope text-neon-acid mr-2"></i> suporte@smstore.com.br</li>
+                        <li><i class="fa-regular fa-clock text-neon-acid mr-2"></i> Seg a Sex: 09h às 18h</li>
+                        <li><span class="text-xs text-zinc-500">Troca grátis em até 7 dias corridos</span></li>
+                    </ul>
+                </div>
+
+                <!-- Coluna 4: Pagamento e Segurança -->
+                <div>
+                    <h4 class="font-display font-bold uppercase text-sm tracking-wider text-white mb-4">Formas de Pagamento</h4>
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-3 py-1.5 rounded-lg bg-dark-800 border border-white/10 text-xs font-bold text-neon-acid flex items-center gap-1.5">
+                            <i class="fa-brands fa-pix"></i> PIX (5% OFF)
+                        </span>
+                        <span class="px-3 py-1.5 rounded-lg bg-dark-800 border border-white/10 text-xs font-bold text-zinc-300">
+                            <i class="fa-brands fa-cc-visa text-base"></i> Visa
+                        </span>
+                        <span class="px-3 py-1.5 rounded-lg bg-dark-800 border border-white/10 text-xs font-bold text-zinc-300">
+                            <i class="fa-brands fa-cc-mastercard text-base"></i> Master
+                        </span>
+                        <span class="px-3 py-1.5 rounded-lg bg-dark-800 border border-white/10 text-xs font-bold text-zinc-300">
+                            Elo / Amex
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs text-zinc-400 bg-dark-950/60 p-3 rounded-xl border border-white/5">
+                        <i class="fa-solid fa-shield-halved text-neon-acid text-lg"></i>
+                        <span>Ambiente 100% Seguro com Criptografia SSL</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 gap-4">
+                <p>© 2026 SM STORE Streetwear Ltda. Todos os direitos reservados.</p>
+                <p>Desenvolvido com estética urbana & performance.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOTÃO FLUTUANTE WHATSAPP + VOLTAR AO TOPO -->
+    <div class="fixed bottom-6 right-6 z-40 flex flex-col gap-3 items-center">
+        <button id="back-to-top" aria-label="Voltar ao topo" class="hidden w-11 h-11 rounded-full bg-dark-800 border border-white/15 text-white hover:bg-neon-acid hover:text-dark-950 transition shadow-lg items-center justify-center">
+            <i class="fa-solid fa-arrow-up"></i>
+        </button>
+        <a href="https://wa.me/5511999992026" target="_blank" rel="noopener" aria-label="Falar no WhatsApp" class="w-14 h-14 rounded-full bg-[#25D366] text-dark-950 flex items-center justify-center text-2xl shadow-[0_0_25px_rgba(37,211,102,0.45)] hover:scale-110 transition animate-float">
+            <i class="fa-brands fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <!-- =====================================================================
+         MODAL DE VISUALIZAÇÃO RÁPIDA (QUICK VIEW)
+    ====================================================================== -->
+    <div id="quick-view-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="bg-dark-900 border border-white/15 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto relative shadow-2xl animate-[fadeIn_0.25s_ease]">
+            <button id="close-quick-view" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-dark-800 text-zinc-300 hover:bg-neon-acid hover:text-dark-950 transition flex items-center justify-center">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div id="quick-view-content" class="grid grid-cols-1 md:grid-cols-2">
+                <!-- Preenchido via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================================
+         GAVETA LATERAL DO CARRINHO (SLIDE-OVER CART DRAWER)
+    ====================================================================== -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300"></div>
+    <aside id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-dark-900 border-l border-white/10 z-50 transform translate-x-full transition-transform duration-300 flex flex-col justify-between">
+        
+        <!-- Topo do Carrinho -->
+        <div class="p-6 border-b border-white/10">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-display font-extrabold text-xl uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-bag-shopping text-neon-acid"></i> Sua Sacola
+                </h3>
+                <button id="close-cart" class="w-9 h-9 rounded-full bg-dark-800 text-zinc-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Barra de Progresso Frete Grátis -->
+            <div class="bg-dark-800 p-3 rounded-xl border border-white/5">
+                <p id="free-shipping-text" class="text-xs text-zinc-300 mb-2 font-medium">
+                    Faltam <strong class="text-neon-acid">R$ 299,00</strong> para ganhar <strong>FRETE GRÁTIS</strong>!
+                </p>
+                <div class="w-full h-2 bg-dark-950 rounded-full overflow-hidden">
+                    <div id="free-shipping-bar" class="h-full bg-neon-acid transition-all duration-500 w-0"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Itens do Carrinho -->
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4">
+            <!-- Itens renderizados via JS -->
+        </div>
+
+        <!-- Rodapé do Carrinho (Cupom + Totais + Finalizar) -->
+        <div id="cart-footer" class="p-6 border-t border-white/10 bg-dark-950/80 space-y-4">
+            <!-- Cupom de Desconto -->
+            <div>
+                <div class="flex gap-2">
+                    <input type="text" id="coupon-input" placeholder="Cupom (ex: SM10)" class="flex-1 bg-dark-800 border border-white/10 rounded-xl px-3.5 py-2 text-xs uppercase text-white placeholder-zinc-500 focus:outline-none focus:border-neon-acid">
+                    <button id="apply-coupon-btn" class="px-4 py-2 rounded-xl bg-dark-700 hover:bg-neon-acid hover:text-dark-950 text-xs font-bold uppercase transition">
+                        Aplicar
+                    </button>
+                </div>
+                <p id="coupon-message" class="text-xs mt-1.5 hidden"></p>
+            </div>
+
+            <!-- Resumo de Valores -->
+            <div class="space-y-1.5 text-sm border-t border-white/10 pt-3">
+                <div class="flex justify-between text-zinc-400">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal">R$ 0,00</span>
+                </div>
+                <div id="discount-row" class="hidden flex justify-between text-neon-acid">
+                    <span>Desconto Cupom</span>
+                    <span id="cart-discount">- R$ 0,00</span>
+                </div>
+                <div class="flex justify-between text-zinc-400">
+                    <span>Frete</span>
+                    <span id="cart-shipping">Calculado no checkout</span>
+                </div>
+                <div class="flex justify-between font-display font-extrabold text-lg text-white pt-2 border-t border-white/10">
+                    <span>Total</span>
+                    <span id="cart-total">R$ 0,00</span>
+                </div>
+                <p class="text-xs text-neon-acid text-right">
+                    ou <strong id="cart-pix-total">R$ 0,00</strong> à vista no Pix (5% OFF)
+                </p>
+            </div>
+
+            <button id="checkout-btn" class="w-full py-4 rounded-xl bg-neon-acid text-dark-950 font-extrabold uppercase tracking-wider text-sm hover:bg-white transition btn-glow">
+                Finalizar Compra
+            </button>
+        </div>
+    </aside>
+
+    <!-- =====================================================================
+         MODAL DE CHECKOUT SIMULADO
+    ====================================================================== -->
+    <div id="checkout-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+        <div class="bg-dark-900 border border-white/15 rounded-3xl max-w-lg w-full p-6 sm:p-8 relative shadow-2xl">
+            <button id="close-checkout" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-dark-800 text-zinc-400 hover:text-white flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div id="checkout-form-view">
+                <span class="text-neon-acid font-mono text-xs uppercase">// CHECKOUT SEGURO</span>
+                <h3 class="font-display font-extrabold text-2xl uppercase mt-1 mb-6">Finalizar Pedido</h3>
+
+                <form id="checkout-form" class="space-y-4">
+                    <div>
+                        <label class="block text-xs text-zinc-400 uppercase mb-1">Nome Completo</label>
+                        <input type="text" required placeholder="Ex: João Silva" class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-neon-acid">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs text-zinc-400 uppercase mb-1">CEP</label>
+                            <input type="text" required placeholder="00000-000" class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-neon-acid">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-zinc-400 uppercase mb-1">Número / Compl.</label>
+                            <input type="text" required placeholder="Ex: 120 Ap 4" class="w-full bg-dark-800 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-neon-acid">
+                        </div>
+                    </div>
+
+                    <!-- Método de Pagamento -->
+                    <div>
+                        <label class="block text-xs text-zinc-400 uppercase mb-2">Forma de Pagamento</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="payment" value="pix" checked class="peer hidden">
+                                <div class="p-3.5 rounded-xl bg-dark-800 border border-white/10 peer-checked:border-neon-acid peer-checked:bg-neon-acid/10 transition text-center">
+                                    <i class="fa-brands fa-pix text-neon-acid text-lg mb-1"></i>
+                                    <p class="text-xs font-bold text-white">PIX (5% OFF)</p>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="payment" value="card" class="peer hidden">
+                                <div class="p-3.5 rounded-xl bg-dark-800 border border-white/10 peer-checked:border-neon-acid peer-checked:bg-neon-acid/10 transition text-center">
+                                    <i class="fa-regular fa-credit-card text-white text-lg mb-1"></i>
+                                    <p class="text-xs font-bold text-white">Cartão até 6x</p>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Box Info PIX -->
+                    <div id="pix-info-box" class="bg-dark-950 border border-neon-acid/30 rounded-xl p-4 flex items-center gap-4">
+                        <div class="w-16 h-16 bg-white p-1.5 rounded-lg flex-shrink-0 flex items-center justify-center text-dark-950">
+                            <i class="fa-solid fa-qrcode text-4xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-neon-acid">Aprovação Imediata + 5% OFF</p>
+                            <p class="text-xs text-zinc-400 mt-1">O código Copia e Cola será gerado na confirmação do pedido.</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 flex items-center justify-between border-t border-white/10">
+                        <span class="text-sm text-zinc-400">Total a pagar:</span>
+                        <span id="checkout-final-amount" class="font-display font-extrabold text-xl text-neon-acid">R$ 0,00</span>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 rounded-xl bg-neon-acid text-dark-950 font-extrabold uppercase tracking-wider text-sm hover:bg-white transition btn-glow">
+                        Confirmar Pedido
+                    </button>
+                </form>
+            </div>
+
+            <!-- Tela de Sucesso do Pedido -->
+            <div id="checkout-success-view" class="hidden text-center py-6">
+                <div class="w-20 h-20 rounded-full bg-neon-acid/20 text-neon-acid flex items-center justify-center text-4xl mx-auto mb-5 animate-bounce">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <span class="font-mono text-xs text-neon-acid uppercase">PEDIDO #SM-202694</span>
+                <h3 class="font-display font-extrabold text-3xl uppercase mt-1 mb-3">Drop Garantido!</h3>
+                <p class="text-zinc-400 text-sm mb-6">
+                    Recebemos seu pedido com sucesso. Enviamos o código de rastreio e detalhes para o seu e-mail.
+                </p>
+                <button id="finish-order-btn" class="px-8 py-3.5 rounded-xl bg-neon-acid text-dark-950 font-extrabold text-sm uppercase tracking-wider hover:bg-white transition">
+                    Continuar Explorando
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST DE NOTIFICAÇÃO -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] bg-dark-800 border border-neon-acid text-white px-5 py-3 rounded-full shadow-2xl flex items-center gap-3 text-sm font-medium transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+        <i class="fa-solid fa-circle-check text-neon-acid"></i>
+        <span id="toast-text">Item adicionado à sacola!</span>
+    </div>
+
+    <!-- =====================================================================
+         JAVASCRIPT COMPLETO (CATÁLOGO, CARRINHO, ANIMAÇÕES E INTERAÇÕES)
+    ====================================================================== -->
+    <script>
+        // 1. BANCO DE DADOS DOS PRODUTOS (10 Peças Streetwear)
+        const productsData = [
+            {
+                id: 1,
+                name: "Camiseta Oversized 'Cyber Skull' 240g",
+                category: "Camisetas",
+                price: 139.90,
+                oldPrice: 169.90,
+                tag: "NOVO",
+                tagColor: "bg-neon-acid text-dark-950",
+                image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=800&q=80",
+                hoverImage: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80",
+                fabric: "100% Algodão Fio 20.1 Penteado (240g/m²)",
+                fit: "Modelagem Boxy Oversized com gola canelada 3cm",
+                description: "Estampa em silk-screen de alta definição nas costas e detalhe minimalista no peito. Caimento estruturado e toque macio."
+            },
+            {
+                id: 2,
+                name: "Moletom Heavyweight 'Acid Studio' 400g",
+                category: "Moletons",
+                price: 289.90,
+                oldPrice: null,
+                tag: "ESGOTANDO",
+                tagColor: "bg-neon-orange text-white",
+                image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=80",
+                hoverImage: "https://images.unsplash.com/photo-1578768079052-aa76e52ff62e?auto=format&fit=crop&w=800&q=80",
+                fabric: "Moletom 3 Cabos Peluciado (400g/m²)",
+                fit: "Ombros deslocados e capuz duplo sem cordão",
+                description: "Peça-chave do Drop 2026. Construção ultra pesada para máximo conforto térmico e visual arquitetônico."
+            },
+            {
+                id: 3,
+                name: "Calça Cargo Parachute 'Tactical Black'",
+                category: "Calças",
+                price: 259.90,
+                oldPrice: 299.90,
+                tag: "15% OFF",
+                tagColor: "bg-white text-dark-950",
+                image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=800&q=80",
+                hoverImage: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=800&q=80",
+                fabric: "Sarja Ripstop Tecnológica Repelente à Água",
+                fit: "Wide Leg com ajustadores elásticos na barra",
+                description: "6 bolsos funcionais com lapela, cintura elástica com cordão interno e ajuste perfeito sobre qualquer sneaker."
+            },
+            {
+                id: 4,
+                name: "Camiseta Boxy 'No Rules' Off-White",
+                category: "Camisetas",
+                price: 129.90,
+                oldPrice: null,
+                tag: "NOVO",
+                tagColor: "bg-neon-acid text-dark-950",
+                image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=800&q=80",
+                hoverImage: "https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=800&q=80",
+                fabric: "100% Algodão Heavyweight 240g",
+                fit: "Corte quadrado mais curto no comprimento",
+                description: "Cor off-white crua com tipografia puff em relevo. Essencial para composições em camadas."
+            },
+            {
+                id: 5,
+                name: "Boné Dad Hat 'SM Emblem' Lavado",
+                category: "Acessórios",
+                price: 89.90,
+                oldPrice: 109.90,
+                tag: "15% OFF",
+                tagColor: "bg-white text-dark-950",
+                image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=800&q=80",
+                hoverImage: "https://images.unsplash.com/photo-1556306535-0f09a537f0a3?auto=format&fit=crop&w=800&q=80",
+                fabric: "Sarja 100% Algodão Tinturado estonado",
+                fit: "Tamanho Único com fecho strapback metálico",
+                description: "Bordado frontal em alto relevo 3D e aba curva desconstruída para uso diário."
+            },
+            {
+                id: 6,
+                name: "Jaqueta Corta-Vento 'Reflective Urban'",
+                category: "Moletons",
+                price: 319.90,
+                oldPrice: null,
+                tag: "NOVO",
+                tagColor: "bg-neon-acid text-dark-950",
+                image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=800&q=80",
+                hoverImage: "https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=80",
+                fabric: "Poliamida Microfibra + Forro interno telado",
+                fit: "Modelagem ampla com zíper tratorado YKK",
+                description: "Recortes geométricos e vivos refletivos que brilham sob luz noturna."
+            },
+            {
+                id: 7,
+                name: "Calça Jeans Baggy 'Dark Washed'",
+                category: "Calças",
+                price: 279.90,
+                oldPrice: null,
+                tag: "ESGOTANDO",
+                tagColor: "bg-neon-orange text-white",
+                image: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=800&q=80",
+                hoverImage: "https://images.unsplash.com/photo-1582552938357-32b906df40cb?auto=format&fit=crop&w=800&q=80",
+                fabric: "Denim 14oz 100% Algodão sem elastano",
+                fit: "Baggy Skate Fit com lavagem acid black",
+                description: "Inspirada na cena skate dos anos 90, com costuras reforçadas e etiqueta em couro sintético."
+            },
+            {
+                id: 8,
+                name: "Shoulder Bag 'Utility Cordura'",
+                category: "Acessórios",
+                price: 119.90,
+                oldPrice: null,
+                tag: "NOVO",
+                tagColor: "bg-neon-acid text-dark-950",
+                image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80",
+                hoverImage: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80",
+                fabric: "Nylon Balístico 600D Resistente à Água",
+                fit: "Alça regulável com mosquetão tático",
+                description: "Compartimento principal acolchoado, bolso frontal em mesh e patch emborrachado SM STORE."
+            }
+        ];
+
+        // 2. ESTADO DA APLICAÇÃO
+        let state = {
+            category: 'Todos',
+            sort: 'featured',
+            searchQuery: '',
+            onlyFavorites: false,
+            favorites: JSON.parse(localStorage.getItem('sm_favorites')) || [],
+            cart: JSON.parse(localStorage.getItem('sm_cart')) || [],
+            coupon: null, // 'SM10' -> 10%
+        };
+
+        const FREE_SHIPPING_GOAL = 299.00;
+
+        // Formatar moeda BRL
+        const formatBRL = (value) => {
+            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        };
+
+        // Mostrar Toast Notification
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastText = document.getElementById('toast-text');
+            toastText.textContent = message;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+
+        // 3. PRELOADER & ANIMAÇÕES INICIAIS
+        window.addEventListener('load', () => {
+            const loaderBar = document.getElementById('loader-bar');
+            const preloader = document.getElementById('preloader');
+            
+            loaderBar.style.width = '100%';
+            
+            setTimeout(() => {
+                preloader.classList.add('hidden-loader');
+                // Dispara animação escalonada do Hero
+                document.querySelectorAll('.hero-stagger').forEach(el => {
+                    el.classList.remove('opacity-0', 'translate-y-6');
+                });
+            }, 650);
+        });
+
+        // 4. CURSOR CUSTOMIZADO & PARALLAX HERO
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            if (cursor) {
+                cursor.style.left = `${e.clientX}px`;
+                cursor.style.top = `${e.clientY}px`;
+            }
+            // Parallax sutil no Hero
+            const heroBg = document.getElementById('hero-bg');
+            if (heroBg && window.scrollY < window.innerHeight) {
+                const moveX = (e.clientX / window.innerWidth - 0.5) * -18;
+                const moveY = (e.clientY / window.innerHeight - 0.5) * -18;
+                heroBg.style.transform = `scale(1.06) translate(${moveX}px, ${moveY}px)`;
+            }
+        });
+
+        // Efeito hover no cursor para elementos interativos
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest('.hover-target, button, a, select')) {
+                cursor?.classList.add('hovered');
+            } else {
+                cursor?.classList.remove('hovered');
+            }
+        });
+
+        // 5. SCROLL REVEAL & CONTADORES ANIMADOS & BOTÃO TOPO
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // Contadores Animados na seção Manifesto
+        let countersStarted = false;
+        const statsObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !countersStarted) {
+                countersStarted = true;
+                document.querySelectorAll('.counter').forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    const duration = 1800;
+                    const stepTime = Math.max(Math.floor(duration / target), 20);
+                    let current = 0;
+                    const timer = setInterval(() => {
+                        current += 1;
+                        counter.textContent = current;
+                        if (current >= target) {
+                            counter.textContent = target;
+                            clearInterval(timer);
+                        }
+                    }, stepTime);
+                });
+            }
+        }, { threshold: 0.4 });
+
+        const statsContainer = document.getElementById('stats-container');
+        if (statsContainer) statsObserver.observe(statsContainer);
+
+        // Voltar ao topo e sombra do Navbar
+        const backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 450) {
+                backToTopBtn.classList.remove('hidden');
+                backToTopBtn.classList.add('flex');
+            } else {
+                backToTopBtn.classList.add('hidden');
+                backToTopBtn.classList.remove('flex');
+            }
+        });
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // 6. RENDERIZAÇÃO DO CATÁLOGO DE PRODUTOS
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            const statusBox = document.getElementById('search-status');
+            const statusText = document.getElementById('search-status-text');
+
+            let filtered = productsData.filter(product => {
+                const matchCat = state.category === 'Todos' || product.category === state.category;
+                const matchSearch = product.name.toLowerCase().includes(state.searchQuery.toLowerCase()) ||
+                                    product.category.toLowerCase().includes(state.searchQuery.toLowerCase());
+                const matchFav = !state.onlyFavorites || state.favorites.includes(product.id);
+                return matchCat && matchSearch && matchFav;
+            });
+
+            // Ordenação
+            if (state.sort === 'price-asc') {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (state.sort === 'price-desc') {
+                filtered.sort((a, b) => b.price - a.price);
+            }
+
+            // Barra de status se houver filtro ativo
+            if (state.searchQuery || state.onlyFavorites || state.category !== 'Todos') {
+                statusBox.classList.remove('hidden');
+                let desc = `Exibindo <strong>${filtered.length}</strong> peça(s)`;
+                if (state.onlyFavorites) desc += ` nos seus <strong>Favoritos</strong>`;
+                if (state.category !== 'Todos') desc += ` em <strong>${state.category}</strong>`;
+                if (state.searchQuery) desc += ` para "<strong>${state.searchQuery}</strong>"`;
+                statusText.innerHTML = desc;
+            } else {
+                statusBox.classList.add('hidden');
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-16 bg-dark-900/50 rounded-2xl border border-white/10">
+                        <i class="fa-solid fa-box-open text-4xl text-zinc-600 mb-3"></i>
+                        <h3 class="font-display font-bold text-xl text-white">Nenhuma peça encontrada</h3>
+                        <p class="text-sm text-zinc-400 mt-1 mb-5">Tente buscar por outro termo ou limpar os filtros.</p>
+                        <button onclick="resetAllFilters()" class="px-6 py-2.5 rounded-xl bg-neon-acid text-dark-950 font-bold text-xs uppercase">Ver Todos os Produtos</button>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(product => {
+                const isFav = state.favorites.includes(product.id);
+                const pixPrice = product.price * 0.95;
+
+                return `
+                <article class="group bg-dark-900 border border-white/10 rounded-2xl overflow-hidden flex flex-col justify-between hover:border-neon-acid/60 transition-all duration-300 hover:-translate-y-1.5">
+                    <!-- Área da Imagem -->
+                    <div class="relative aspect-[4/5] overflow-hidden bg-dark-800 cursor-pointer" onclick="openQuickView(${product.id})">
+                        <img src="${product.image}" 
+                             alt="${product.name}" 
+                             class="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
+                             onerror="this.src='https://placehold.co/600x750/18181b/ffffff?text=SM+STORE'">
+                        <img src="${product.hoverImage}" 
+                             alt="${product.name} detalhe" 
+                             class="w-full h-full object-cover absolute inset-0 opacity-0 scale-105 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100"
+                             onerror="this.src='https://placehold.co/600x750/18181b/bef264?text=SM+DETAIL'">
+
+                        <!-- Tag Superior Esquerda -->
+                        ${product.tag ? `<span class="absolute top-3 left-3 ${product.tagColor} text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md shadow-md">${product.tag}</span>` : ''}
+
+                        <!-- Botão Favoritar -->
+                        <button onclick="event.stopPropagation(); toggleFavorite(${product.id})" 
+                                aria-label="Favoritar"
+                                class="absolute top-3 right-3 w-9 h-9 rounded-full bg-dark-950/70 backdrop-blur-md flex items-center justify-center text-sm transition hover:scale-110 ${isFav ? 'text-neon-orange' : 'text-white hover:text-neon-acid'}">
+                            <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+                        </button>
+
+                        <!-- Quick Add Overlay (Aparece no Hover) -->
+                        <div onclick="event.stopPropagation()" class="absolute inset-x-3 bottom-3 bg-dark-950/90 backdrop-blur-md border border-white/15 p-3 rounded-xl translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                            <p class="text-[10px] uppercase tracking-wider text-zinc-400 mb-2 text-center font-bold">Compra Rápida • Selecione o Tamanho:</p>
+                            <div class="grid grid-cols-4 gap-1.5">
+                                ${['P', 'M', 'G', 'GG'].map(size => `
+                                    <button onclick="addToCart(${product.id}, '${size}')" 
+                                            class="py-1.5 rounded-lg bg-dark-800 hover:bg-neon-acid hover:text-dark-950 text-xs font-extrabold transition">
+                                        ${size}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Informações do Produto -->
+                    <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[11px] font-mono uppercase text-zinc-500">${product.category}</span>
+                            <h3 onclick="openQuickView(${product.id})" class="font-bold text-base text-white group-hover:text-neon-acid transition cursor-pointer line-clamp-1 mt-0.5">
+                                ${product.name}
+                            </h3>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-t border-white/5 flex items-end justify-between">
+                            <div>
+                                ${product.oldPrice ? `<span class="text-xs text-zinc-500 line-through block">${formatBRL(product.oldPrice)}</span>` : ''}
+                                <span class="font-display font-extrabold text-lg text-white">${formatBRL(product.price)}</span>
+                                <span class="block text-[11px] text-neon-acid font-medium">${formatBRL(pixPrice)} no Pix</span>
+                            </div>
+                            <button onclick="openQuickView(${product.id})" class="px-3 py-2 rounded-xl bg-dark-800 hover:bg-neon-acid hover:text-dark-950 text-xs font-bold uppercase transition">
+                                Detalhes
+                            </button>
+                        </div>
+                    </div>
+                </article>
+                `;
+            }).join('');
+        }
+
+        // 7. FILTROS, BUSCA E FAVORITOS
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('bg-neon-acid', 'text-dark-950');
+                    b.classList.add('bg-dark-800', 'text-zinc-300');
+                });
+                btn.classList.remove('bg-dark-800', 'text-zinc-300');
+                btn.classList.add('bg-neon-acid', 'text-dark-950');
+                
+                state.category = btn.getAttribute('data-category');
+                state.onlyFavorites = false;
+                renderProducts();
+            });
+        });
+
+        function filterByBanner(category) {
+            state.category = category;
+            state.onlyFavorites = false;
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                if (b.getAttribute('data-category') === category) {
+                    b.classList.remove('bg-dark-800', 'text-zinc-300');
+                    b.classList.add('bg-neon-acid', 'text-dark-950');
+                } else {
+                    b.classList.remove('bg-neon-acid', 'text-dark-950');
+                    b.classList.add('bg-dark-800', 'text-zinc-300');
+                }
+            });
+            document.getElementById('lancamentos').scrollIntoView({ behavior: 'smooth' });
+            renderProducts();
+        }
+
+        document.getElementById('sort-select').addEventListener('change', (e) => {
+            state.sort = e.target.value;
+            renderProducts();
+        });
+
+        function handleSearch(val) {
+            state.searchQuery = val;
+            renderProducts();
+        }
+        document.getElementById('search-input').addEventListener('input', (e) => handleSearch(e.target.value));
+        document.getElementById('mobile-search-input').addEventListener('input', (e) => handleSearch(e.target.value));
+
+        document.getElementById('mobile-search-toggle').addEventListener('click', () => {
+            document.getElementById('mobile-search-bar').classList.toggle('hidden');
+        });
+
+        function resetAllFilters() {
+            state.category = 'Todos';
+            state.searchQuery = '';
+            state.onlyFavorites = false;
+            document.getElementById('search-input').value = '';
+            document.getElementById('mobile-search-input').value = '';
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                if (b.getAttribute('data-category') === 'Todos') {
+                    b.classList.add('bg-neon-acid', 'text-dark-950');
+                    b.classList.remove('bg-dark-800', 'text-zinc-300');
+                } else {
+                    b.classList.remove('bg-neon-acid', 'text-dark-950');
+                    b.classList.add('bg-dark-800', 'text-zinc-300');
+                }
+            });
+            renderProducts();
+        }
+        document.getElementById('clear-filters-btn').addEventListener('click', resetAllFilters);
+
+        // Favoritos
+        function updateFavBadge() {
+            const favCount = document.getElementById('fav-count');
+            if (state.favorites.length > 0) {
+                favCount.textContent = state.favorites.length;
+                favCount.classList.remove('hidden');
+            } else {
+                favCount.classList.add('hidden');
+            }
+        }
+
+        function toggleFavorite(id) {
+            const idx = state.favorites.indexOf(id);
+            if (idx > -1) {
+                state.favorites.splice(idx, 1);
+                showToast('Removido dos favoritos');
+            } else {
+                state.favorites.push(id);
+                showToast('Salvo nos seus favoritos!');
+            }
+            localStorage.setItem('sm_favorites', JSON.stringify(state.favorites));
+            updateFavBadge();
+            renderProducts();
+        }
+
+        document.getElementById('favorites-btn').addEventListener('click', () => {
+            state.onlyFavorites = !state.onlyFavorites;
+            document.getElementById('lancamentos').scrollIntoView({ behavior: 'smooth' });
+            renderProducts();
+        });
+
+        // 8. MODAL QUICK VIEW (DETALHES + GUIA DE MEDIDAS + FRETE CEP)
+        let selectedModalSize = 'M';
+
+        function openQuickView(productId) {
+            const product = productsData.find(p => p.id === productId);
+            if (!product) return;
+            selectedModalSize = 'M';
+
+            const modal = document.getElementById('quick-view-modal');
+            const content = document.getElementById('quick-view-content');
+
+            content.innerHTML = `
+                <div class="bg-dark-800 relative aspect-square md:aspect-auto">
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x600/18181b/ffffff?text=SM+STORE'">
+                    ${product.tag ? `<span class="absolute top-4 left-4 ${product.tagColor} text-xs font-extrabold uppercase px-3 py-1 rounded-md">${product.tag}</span>` : ''}
+                </div>
+                <div class="p-6 sm:p-8 flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-mono text-neon-acid uppercase">${product.category} // DROP 2026</span>
+                        <h3 class="font-display font-extrabold text-2xl sm:text-3xl uppercase mt-1">${product.name}</h3>
+                        
+                        <div class="mt-3 flex items-baseline gap-3">
+                            <span class="font-display font-extrabold text-2xl text-white">${formatBRL(product.price)}</span>
+                            ${product.oldPrice ? `<span class="text-sm text-zinc-500 line-through">${formatBRL(product.oldPrice)}</span>` : ''}
+                            <span class="text-xs bg-neon-acid/15 text-neon-acid px-2 py-0.5 rounded font-bold">5% OFF no Pix</span>
+                        </div>
+
+                        <p class="text-zinc-400 text-sm mt-4 leading-relaxed">${product.description}</p>
+
+                        <!-- Especificações do Tecido -->
+                        <div class="mt-4 p-3.5 rounded-xl bg-dark-950/70 border border-white/5 space-y-1.5 text-xs">
+                            <p><strong class="text-white">Tecido:</strong> <span class="text-zinc-400">${product.fabric}</span></p>
+                            <p><strong class="text-white">Modelagem:</strong> <span class="text-zinc-400">${product.fit}</span></p>
+                        </div>
+
+                        <!-- Escolha de Tamanho + Guia -->
+                        <div class="mt-5">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold uppercase text-zinc-300">Escolha o Tamanho:</span>
+                                <button type="button" onclick="document.getElementById('size-guide-box').classList.toggle('hidden')" class="text-xs text-neon-acid underline">
+                                    <i class="fa-solid fa-ruler-horizontal mr-1"></i> Guia de Medidas
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-4 gap-2" id="modal-size-selector">
+                                ${['P', 'M', 'G', 'GG'].map(size => `
+                                    <button type="button" onclick="selectModalSize('${size}', this)" 
+                                            class="modal-size-btn py-2.5 rounded-xl font-extrabold text-sm border transition ${size === 'M' ? 'bg-neon-acid text-dark-950 border-neon-acid' : 'bg-dark-800 text-white border-white/10 hover:border-neon-acid'}">
+                                        ${size}
+                                    </button>
+                                `).join('')}
+                            </div>
+
+                            <!-- Tabela Guia de Medidas (Oculta por padrão) -->
+                            <div id="size-guide-box" class="hidden mt-3 p-3 rounded-xl bg-dark-800 border border-white/10 text-xs">
+                                <table class="w-full text-left text-zinc-300">
+                                    <thead>
+                                        <tr class="border-b border-white/10 text-neon-acid">
+                                            <th class="pb-1">Tam</th><th class="pb-1">Largura</th><th class="pb-1">Comprimento</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td class="py-1 font-bold">P</td><td>56 cm</td><td>72 cm</td></tr>
+                                        <tr><td class="py-1 font-bold">M</td><td>58 cm</td><td>74 cm</td></tr>
+                                        <tr><td class="py-1 font-bold">G</td><td>61 cm</td><td>77 cm</td></tr>
+                                        <tr><td class="py-1 font-bold">GG</td><td>64 cm</td><td>80 cm</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Simulador de Frete CEP -->
+                        <div class="mt-5">
+                            <label class="block text-xs font-bold uppercase text-zinc-400 mb-1.5">Calcular Prazo e Frete:</label>
+                            <div class="flex gap-2">
+                                <input type="text" id="cep-input" maxlength="9" placeholder="Digite seu CEP (ex: 01001-000)" class="flex-1 bg-dark-800 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-neon-acid">
+                                <button type="button" onclick="calculateCep()" class="px-4 py-2 rounded-xl bg-dark-700 hover:bg-white hover:text-dark-950 text-xs font-bold uppercase transition">
+                                    Calcular
+                                </button>
+                            </div>
+                            <p id="cep-result" class="text-xs text-neon-acid mt-1.5 hidden"></p>
+                        </div>
+                    </div>
+
+                    <button onclick="addToCart(${product.id}, selectedModalSize); closeQuickViewModal();" 
+                            class="w-full mt-6 py-4 rounded-xl bg-neon-acid text-dark-950 font-extrabold uppercase tracking-wider text-sm hover:bg-white transition btn-glow flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-bag-shopping"></i> Adicionar à Sacola
+                    </button>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function selectModalSize(size, btnEl) {
+            selectedModalSize = size;
+            document.querySelectorAll('.modal-size-btn').forEach(b => {
+                b.classList.remove('bg-neon-acid', 'text-dark-950', 'border-neon-acid');
+                b.classList.add('bg-dark-800', 'text-white', 'border-white/10');
+            });
+            btnEl.classList.remove('bg-dark-800', 'text-white', 'border-white/10');
+            btnEl.classList.add('bg-neon-acid', 'text-dark-950', 'border-neon-acid');
+        }
+
+        function calculateCep() {
+            const cep = document.getElementById('cep-input').value.trim();
+            const res = document.getElementById('cep-result');
+            if (cep.length < 8) {
+                res.textContent = 'Por favor, digite um CEP válido com 8 dígitos.';
+                res.classList.remove('hidden', 'text-neon-acid');
+                res.classList.add('text-neon-orange');
+                return;
+            }
+            res.innerHTML = '🚚 <strong>Expresso SM:</strong> Entrega em 2 a 4 dias úteis (Grátis acima de R$ 299)';
+            res.classList.remove('hidden', 'text-neon-orange');
+            res.classList.add('text-neon-acid');
+        }
+
+        function closeQuickViewModal() {
+            const modal = document.getElementById('quick-view-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+        document.getElementById('close-quick-view').addEventListener('click', closeQuickViewModal);
+        document.getElementById('quick-view-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'quick-view-modal') closeQuickViewModal();
+        });
+
+        // 9. LÓGICA DO CARRINHO (SLIDE-OVER CART DRAWER)
+        const cartDrawer = document.getElementById('cart-drawer');
+        const cartOverlay = document.getElementById('cart-overlay');
+
+        function openCart() {
+            cartOverlay.classList.remove('hidden');
+            setTimeout(() => cartOverlay.classList.remove('opacity-0'), 10);
+            cartDrawer.classList.remove('translate-x-full');
+        }
+
+        function closeCart() {
+            cartOverlay.classList.add('opacity-0');
+            cartDrawer.classList.add('translate-x-full');
+            setTimeout(() => cartOverlay.classList.add('hidden'), 300);
+        }
+
+        document.getElementById('cart-btn').addEventListener('click', openCart);
+        document.getElementById('close-cart').addEventListener('click', closeCart);
+        cartOverlay.addEventListener('click', closeCart);
+
+        function saveCart() {
+            localStorage.setItem('sm_cart', JSON.stringify(state.cart));
+            updateCartUI();
+        }
+
+        function addToCart(productId, size = 'M') {
+            const product = productsData.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = state.cart.find(item => item.id === productId && item.size === size);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                state.cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    size: size,
+                    qty: 1
+                });
+            }
+
+            // Animação no contador
+            const badge = document.getElementById('cart-count');
+            badge.classList.remove('animate-bump');
+            void badge.offsetWidth;
+            badge.classList.add('animate-bump');
+
+            saveCart();
+            showToast(`${product.name} (${size}) adicionado!`);
+            openCart();
+        }
+
+        function updateItemQty(index, delta) {
+            state.cart[index].qty += delta;
+            if (state.cart[index].qty <= 0) {
+                state.cart.splice(index, 1);
+            }
+            saveCart();
+        }
+
+        function removeCartItem(index) {
+            state.cart.splice(index, 1);
+            saveCart();
+        }
+
+        // Aplicar Cupom ('SM10')
+        document.getElementById('apply-coupon-btn').addEventListener('click', () => {
+            const code = document.getElementById('coupon-input').value.trim().toUpperCase();
+            const msg = document.getElementById('coupon-message');
+            msg.classList.remove('hidden');
+
+            if (code === 'SM10') {
+                state.coupon = 'SM10';
+                msg.textContent = '✓ Cupom SM10 aplicado (10% de desconto)!';
+                msg.className = 'text-xs mt-1.5 text-neon-acid font-bold';
+            } else {
+                state.coupon = null;
+                msg.textContent = 'Cupom inválido. Tente o cupom SM10.';
+                msg.className = 'text-xs mt-1.5 text-neon-orange';
+            }
+            updateCartUI();
+        });
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            const cartCount = document.getElementById('cart-count');
+            const footer = document.getElementById('cart-footer');
+
+            const totalItems = state.cart.reduce((acc, item) => acc + item.qty, 0);
+            cartCount.textContent = totalItems;
+
+            if (state.cart.length === 0) {
+                container.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center py-12">
+                        <div class="w-16 h-16 rounded-full bg-dark-800 flex items-center justify-center text-zinc-500 text-2xl mb-4">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                        </div>
+                        <p class="font-display font-bold text-lg text-white">Sua sacola está vazia</p>
+                        <p class="text-xs text-zinc-400 mt-1 mb-6 max-w-xs">Explore o Drop 2026 e adicione suas peças favoritas.</p>
+                        <button onclick="closeCart()" class="px-6 py-2.5 rounded-xl bg-neon-acid text-dark-950 font-bold text-xs uppercase">Explorar Loja</button>
+                    </div>
+                `;
+                footer.classList.add('hidden');
+                updateShippingBar(0);
+                return;
+            }
+
+            footer.classList.remove('hidden');
+
+            container.innerHTML = state.cart.map((item, idx) => `
+                <div class="flex gap-3.5 bg-dark-800/70 border border-white/5 p-3 rounded-2xl">
+                    <img src="${item.image}" alt="${item.name}" class="w-20 h-24 object-cover rounded-xl bg-dark-950" onerror="this.src='https://placehold.co/100x120/18181b/ffffff?text=SM'">
+                    <div class="flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start gap-2">
+                                <h4 class="text-xs font-bold text-white line-clamp-2">${item.name}</h4>
+                                <button onclick="removeCartItem(${idx})" class="text-zinc-500 hover:text-neon-orange text-xs">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                            <span class="inline-block mt-1 px-2 py-0.5 rounded bg-dark-950 text-[10px] font-bold text-neon-acid">Tam: ${item.size}</span>
+                        </div>
+                        <div class="flex items-center justify-between mt-2">
+                            <div class="flex items-center bg-dark-950 rounded-lg border border-white/10">
+                                <button onclick="updateItemQty(${idx}, -1)" class="w-7 h-7 text-xs text-zinc-400 hover:text-white">-</button>
+                                <span class="px-2 text-xs font-bold">${item.qty}</span>
+                                <button onclick="updateItemQty(${idx}, 1)" class="w-7 h-7 text-xs text-zinc-400 hover:text-white">+</button>
+                            </div>
+                            <span class="font-display font-bold text-sm text-white">${formatBRL(item.price * item.qty)}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Cálculos
+            const subtotal = state.cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            const discount = state.coupon === 'SM10' ? subtotal * 0.10 : 0;
+            const total = subtotal - discount;
+            const pixTotal = total * 0.95;
+
+            document.getElementById('cart-subtotal').textContent = formatBRL(subtotal);
+            
+            const discountRow = document.getElementById('discount-row');
+            if (discount > 0) {
+                discountRow.classList.remove('hidden');
+                document.getElementById('cart-discount').textContent = `- ${formatBRL(discount)}`;
+            } else {
+                discountRow.classList.add('hidden');
+            }
+
+            const shippingEl = document.getElementById('cart-shipping');
+            if (subtotal >= FREE_SHIPPING_GOAL) {
+                shippingEl.innerHTML = '<span class="text-neon-acid font-bold">GRÁTIS</span>';
+            } else {
+                shippingEl.textContent = 'R$ 19,90';
+            }
+
+            const finalWithShipping = subtotal >= FREE_SHIPPING_GOAL ? total : total + 19.90;
+            document.getElementById('cart-total').textContent = formatBRL(finalWithShipping);
+            document.getElementById('cart-pix-total').textContent = formatBRL(finalWithShipping * 0.95);
+            document.getElementById('checkout-final-amount').textContent = formatBRL(finalWithShipping);
+
+            updateShippingBar(subtotal);
+        }
+
+        function updateShippingBar(subtotal) {
+            const textEl = document.getElementById('free-shipping-text');
+            const barEl = document.getElementById('free-shipping-bar');
+            const pct = Math.min((subtotal / FREE_SHIPPING_GOAL) * 100, 100);
+            barEl.style.width = `${pct}%`;
+
+            if (subtotal >= FREE_SHIPPING_GOAL) {
+                textEl.innerHTML = '🎉 Parabéns! Você desbloqueou <strong class="text-neon-acid">FRETE GRÁTIS</strong>!';
+            } else {
+                const missing = FREE_SHIPPING_GOAL - subtotal;
+                textEl.innerHTML = `Faltam <strong class="text-neon-acid">${formatBRL(missing)}</strong> para ganhar <strong>FRETE GRÁTIS</strong>!`;
+            }
+        }
+
+        // 10. CHECKOUT SIMULADO
+        const checkoutModal = document.getElementById('checkout-modal');
+        document.getElementById('checkout-btn').addEventListener('click', () => {
+            closeCart();
+            document.getElementById('checkout-form-view').classList.remove('hidden');
+            document.getElementById('checkout-success-view').classList.add('hidden');
+            checkoutModal.classList.remove('hidden');
+            checkoutModal.classList.add('flex');
+        });
+
+        document.getElementById('close-checkout').addEventListener('click', () => {
+            checkoutModal.classList.add('hidden');
+            checkoutModal.classList.remove('flex');
+        });
+
+        // Alternar visualização PIX no checkout
+        document.querySelectorAll('input[name="payment"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const pixBox = document.getElementById('pix-info-box');
+                if (e.target.value === 'pix') {
+                    pixBox.classList.remove('hidden');
+                } else {
+                    pixBox.classList.add('hidden');
+                }
+            });
+        });
+
+        document.getElementById('checkout-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            document.getElementById('checkout-form-view').classList.add('hidden');
+            document.getElementById('checkout-success-view').classList.remove('hidden');
+            state.cart = [];
+            saveCart();
+        });
+
+        document.getElementById('finish-order-btn').addEventListener('click', () => {
+            checkoutModal.classList.add('hidden');
+            checkoutModal.classList.remove('flex');
+        });
+
+        // 11. MENU MOBILE & NEWSLETTER
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileOverlay = document.getElementById('mobile-menu-overlay');
+
+        function toggleMobileMenu(open) {
+            if (open) {
+                mobileOverlay.classList.remove('hidden');
+                setTimeout(() => mobileOverlay.classList.remove('opacity-0'), 10);
+                mobileMenu.classList.remove('-translate-x-full');
+            } else {
+                mobileOverlay.classList.add('opacity-0');
+                mobileMenu.classList.add('-translate-x-full');
+                setTimeout(() => mobileOverlay.classList.add('hidden'), 300);
+            }
+        }
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => toggleMobileMenu(true));
+        document.getElementById('close-mobile-menu').addEventListener('click', () => toggleMobileMenu(false));
+        mobileOverlay.addEventListener('click', () => toggleMobileMenu(false));
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => toggleMobileMenu(false));
+        });
+
+        // Newsletter
+        document.getElementById('newsletter-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const feedback = document.getElementById('newsletter-feedback');
+            feedback.innerHTML = '🔥 Bem-vindo ao Clube SM! Use o cupom <strong>SM10</strong> na sua sacola.';
+            feedback.classList.remove('hidden');
+            document.getElementById('newsletter-email').value = '';
+        });
+
+        // Inicializar interface
+        updateFavBadge();
+        updateCartUI();
+        renderProducts();
+    </script>
+</body>
+</html>
